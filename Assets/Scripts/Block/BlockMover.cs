@@ -3,6 +3,9 @@ using UnityEngine;
 
 namespace Block
 {
+    /// <summary>
+    /// ブロックの移動を管理する
+    /// </summary>
     public class BlockMover : MonoBehaviour, IReceiver
     {
         /// <summary>

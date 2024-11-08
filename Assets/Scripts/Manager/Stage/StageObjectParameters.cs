@@ -1,7 +1,7 @@
 ﻿namespace Manager.Stage
 {
     /// <summary>
-    /// 
+    /// ステージオブジェクトのパラメータを管理する
     /// </summary>
     public static class StageObjectParametersConst
     {

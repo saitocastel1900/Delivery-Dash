@@ -2,6 +2,9 @@ using UnityEngine;
 
 namespace Commons.Extensions
 {
+    /// <summary>
+    /// RectTransformの拡張メソッド
+    /// </summary>
     public static class RectTransformExtension
     {
         /// <summary>

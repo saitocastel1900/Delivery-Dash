@@ -1,29 +1,29 @@
 using UnityEngine;
 
-namespace Commons.Utility
+/// <summary>
+/// DebugLogのUtility
+/// </summary>
+public static class DebugUtility
 {
-    public static class DebugUtility
+    /// <summary>
+    /// エラーログ
+    /// </summary>
+    public static void LogError(string message)
     {
-        /// <summary>
-        /// エラーログ
-        /// </summary>
-        public static void LogError(string message)
-        {
 #if UNITY_EDITOR
-            Debug.LogError(message);
+        Debug.LogError(message);
 #endif
-        }
+    }
 
-        /// <summary>
-        /// デバッグログ
-        /// </summary>
-        public static void Log(string message)
+    /// <summary>
+    /// デバッグログ
+    /// </summary>
+    public static void Log(string message)
+    {
         {
-            {
 #if UNITY_EDITOR
-                Debug.Log(message);
+            Debug.Log(message);
 #endif
-            }
         }
     }
 }

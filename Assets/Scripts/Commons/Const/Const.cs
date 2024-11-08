@@ -1,21 +1,14 @@
 ﻿namespace Commons.Const
 {
+    /// <summary>
+    /// ゲーム全体のパラメーターを管理する
+    /// </summary>
     public static class Const
     {
         /// <summary>
         /// ステージの数
         /// </summary>
-        public static int StagesNumber = 3;
-
-        /// <summary>
-        /// SelectSceneの名前
-        /// </summary>
-        public static string StageSelectSceneName = "Select";
-        
-        /// <summary>
-        /// SelectSceneの名前
-        /// </summary>
-        public static string StageTemplateName = "Stage";
+        public static int StagesMaxNumber = 3;
         
         /// <summary>
         /// プレイヤーのタグ
