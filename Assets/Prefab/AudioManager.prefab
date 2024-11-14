@@ -321,5 +321,7 @@ MonoBehaviour:
   _bgmDataBase: {fileID: 11400000, guid: 46181cf0b36211f4980773fd3d258bf5, type: 2}
   _soundEffectDataBase: {fileID: 11400000, guid: 8e2c3f26b46233b43b443b0fd565b946, type: 2}
   masterVolume: 1
-  bgmMasterVolume: 0
-  seMasterVolume: 0.65
+  bgmMasterVolume:
+    value: 1
+  seMasterVolume:
+    value: 1

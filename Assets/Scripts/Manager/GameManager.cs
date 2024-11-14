@@ -63,13 +63,6 @@ public class GameManager : MonoBehaviour
             .Subscribe(OnStateChanged)
             .AddTo(this.gameObject);
         
-        //フェードアウトしたら、ゲームスタート
-        _inputEventProvider
-            .IsGameStart
-            .SkipLatestValueOnSubscribe()
-            .Subscribe(_=>_currentState.Value = GameEnum.State.Ready)
-            .AddTo(this.gameObject);
-        
         _inputEventProvider
             .IsReset
             .SkipLatestValueOnSubscribe()
@@ -88,7 +81,14 @@ public class GameManager : MonoBehaviour
             .SkipLatestValueOnSubscribe()
             .Subscribe(_=>SceneManager.LoadScene(SceneManager.GetActiveScene().name))
             .AddTo(this.gameObject);
-
+        
+        //フェードアウトしたら、ゲームスタート
+        _inputEventProvider
+            .IsGameStart
+            .SkipLatestValueOnSubscribe()
+            .Subscribe(_=>_currentState.Value = GameEnum.State.Ready)
+            .AddTo(this.gameObject);
+        
         StartCoroutine(_canvasFader.FadeOut());
         
         _audioManager.PlayBGM(BgmData.BGM.Battle);
@@ -104,9 +104,6 @@ public class GameManager : MonoBehaviour
         {
             case GameEnum.State.Ready:
                 Ready();
-                break;
-            case GameEnum.State.Result:
-                Result();
                 break;
             case GameEnum.State.Finished:
                 Finished();
@@ -130,23 +127,16 @@ public class GameManager : MonoBehaviour
         _commandManager
             .IsDelivered
             .Where(x=>x==true)
-            .Subscribe(_=>_currentState.Value = GameEnum.State.Result);
-        
-        _stageGenerator.CreateStage();
-    }
-    
-    /// <summary>
-    /// リザルト表示
-    /// </summary>
-    private void Result()
-    {
-        _resultWidget.StartResult();
+            .Subscribe(_=>_resultWidget.StartResult())
+            .AddTo(this.gameObject);
         
         //リザルトを表示できたら、ゲーム終了
         _resultWidget.
             OnFinishResult
             .Subscribe(_ => _currentState.Value = GameEnum.State.Finished)
             .AddTo(this.gameObject);
+        
+        _stageGenerator.CreateStage();
     }
     
     /// <summary>
@@ -156,14 +146,14 @@ public class GameManager : MonoBehaviour
     {
         _saveManager.Load();
         
-        if (_saveManager.Data.CurrentStageNumber + 1 < Const.StagesMaxNumber)
+        if (_saveManager.Data.CurrentStageNumber < Const.StagesMaxNumber)
         {
-            _saveManager.SetCurrentStageNumber(_saveManager.Data.CurrentStageNumber++);
+            _saveManager.SetCurrentStageNumber(_saveManager.Data.CurrentStageNumber+1);
         }
 
         //クリアしたゲームに応じて、次のステージを開放する
         if (_saveManager.Data.CurrentStageNumber > _saveManager.Data.MaxStageClearNumber &&
-            _saveManager.Data.MaxStageClearNumber + 1 < Const.StagesMaxNumber)
+            _saveManager.Data.MaxStageClearNumber< Const.StagesMaxNumber)
         {
             _saveManager.Data.MaxStageClearNumber++;
         }

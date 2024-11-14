@@ -32,7 +32,7 @@ public class SeVolumeSettingWidgetPresenter : MonoBehaviour
             .AddTo(this);
         
         //音量が変更されたら、音量のテキスト表示を変更する
-        _audioManager.BgmMasterVolume
+        _audioManager.SeMasterVolume
             .Subscribe(volume=> _view.SetSoundEffectVolumeText((int)Mathf.Round(volume*10)))
             .AddTo(this);
     }

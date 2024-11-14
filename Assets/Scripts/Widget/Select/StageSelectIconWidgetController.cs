@@ -43,9 +43,7 @@ namespace Widget.Select
         
         private void Start()
         {
-            _saveManager.Load();
-            
-            SetStageSelectIcon(_saveManager.Data.MaxStageClearNumber);
+            SetStageSelectIcon(_saveManager.Data.CurrentStageNumber-1);
             
             SetStageSelectPanelListScale();
 
@@ -113,6 +111,7 @@ namespace Widget.Select
             }
             
             _currentStageNumber = newStageNumber;
+            _saveManager.SetCurrentStageNumber(_saveManager.Data.CurrentStageNumber + direction);
             
             TurnAnimation();
         }

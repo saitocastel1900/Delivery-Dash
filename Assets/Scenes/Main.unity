@@ -22503,7 +22503,7 @@ MonoBehaviour:
   _stageDatas:
   - {fileID: 11400000, guid: e242463d110c4d74abea021fa2c42db4, type: 2}
   - {fileID: 11400000, guid: 70f03c46f31180c4a99aa3c36edce2ea, type: 2}
-  - {fileID: 11400000, guid: be8b2e0c46b9f9344a409707a9d452e8, type: 2}
+  - {fileID: 11400000, guid: 70f03c46f31180c4a99aa3c36edce2ea, type: 2}
   _parentObject: {fileID: 1966500655}
 --- !u!114 &1966500661
 MonoBehaviour:
