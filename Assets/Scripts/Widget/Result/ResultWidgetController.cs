@@ -10,16 +10,16 @@ namespace Widget.Result
     public class ResultWidgetController : MonoBehaviour
     {
         /// <summary>
-        /// ダイアログを表示するか
+        /// リザルト表示を開始するか
         /// </summary>
         public IObservable<Unit> OnShowResultWidgetAsObservable => _resultWidgetSubject;
         private Subject<Unit> _resultWidgetSubject = new Subject<Unit>();
         
         /// <summary>
-        /// マーカー読み取りのガイドが終了したか
+        ///　リザルト表示が終了したか
         /// </summary>
-        public IObservable<Unit> OnFinishResult => _stageClearAndNextStageWidgetSubject;
-        private Subject<Unit> _stageClearAndNextStageWidgetSubject = new Subject<Unit>();
+        public IObservable<Unit> OnFinishResult => _cutinWidgetSubject;
+        private Subject<Unit> _cutinWidgetSubject = new Subject<Unit>();
    
         /// <summary>
         /// リザルト表示を開始する
@@ -29,6 +29,6 @@ namespace Widget.Result
         /// <summary>
         /// ガイドのアニメーションが終了した
         /// </summary>
-        public void FinishStageClearAndNextStageAnimation() => _stageClearAndNextStageWidgetSubject.OnNext(Unit.Default);
+        public void FinishCutinAnimation() => _cutinWidgetSubject.OnNext(Unit.Default);
     }
 }

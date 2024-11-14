@@ -1,6 +1,7 @@
 using Commons.Const;
 using Commons.Save;
 using DG.Tweening;
+using Manager.Command;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -61,6 +62,11 @@ public class ResultCutinWidget : MonoBehaviour
     /// SaveManager
     /// </summary>
     [Inject] private SaveManager _saveManager;
+
+    /// <summary>
+    /// InGameCommandManager
+    /// </summary>
+    [Inject] private InGameCommandManager _inGameCommandManager;
     
     /// <summary>
     /// Sequence
@@ -99,6 +105,7 @@ public class ResultCutinWidget : MonoBehaviour
         //カットイン表示
         _sequence = DOTween.Sequence()
             .Append(_canvasGroup.DOFade(1f, 0.25f))
+            .Join(_messageText.DOText($"ゲームクリア！　ステップ数：{_inGameCommandManager.BlockMovedList.Count}", 0.0f, scrambleMode: ScrambleMode.None))
             .Join(_stripeImage.rectTransform.DOSizeDelta(new Vector2(_stripeImage.rectTransform.sizeDelta.x, 500), 0.25f))
             .Join(_messageText.rectTransform.DOSizeDelta(new Vector2(_messageText.rectTransform.sizeDelta.x, 500), 0.25f))
             .Join(_messageText.rectTransform.DOScaleY(1, 0.25f));
@@ -124,7 +131,7 @@ public class ResultCutinWidget : MonoBehaviour
 
         //文字を基の場所に戻す
         _sequence
-            .Append(_messageText.DOText($"残り.. {_saveManager.CurrentStageNumber}/{Const.StagesMaxNumber}", 0.0f, scrambleMode: ScrambleMode.None))
+            .Append(_messageText.DOText($"残り.. {_saveManager.Data.CurrentStageNumber}/{Const.StagesMaxNumber}", 0.0f, scrambleMode: ScrambleMode.None))
             .Join(_messageText.rectTransform.DOScale(1f, 0.1f))
             .Join(_messageText.DOFade(1f, 0.1f));
         
@@ -142,7 +149,7 @@ public class ResultCutinWidget : MonoBehaviour
             .Join(_messageText.rectTransform.DOScaleY(0, 0.25f))
             .OnComplete(() =>
             {
-                _resultWidgetController.FinishStageClearAndNextStageAnimation();
+                _resultWidgetController.FinishCutinAnimation();
                 _backgroundScroller.ScrollSpeedX = _defaultStripeScrollSpeed;
                 _textScroller.Speed = _defaultTextScrollSpeed;
             });

@@ -15,11 +15,6 @@ namespace Widget.InGame.StageNumber
         /// View
         /// </summary>
         private StageNumberView _view;
-
-        /// <summary>
-        /// IInputEventProvider
-        /// </summary>
-        private IInputEventProvider _input;
         
         /// <summary>
         /// SaveManager
@@ -34,11 +29,10 @@ namespace Widget.InGame.StageNumber
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public StageNumberPresenter(StageNumberView view, SaveManager saveManager, IInputEventProvider input)
+        public StageNumberPresenter(StageNumberView view, SaveManager saveManager)
         {
             _view = view;
             _saveManager = saveManager;
-            _input = input;
         }
 
         /// <summary>
@@ -59,7 +53,7 @@ namespace Widget.InGame.StageNumber
             //ステージに移動したら、そのステージの番号を反映する
             _saveManager
                 .CurrentStageNumber
-                .Subscribe(x=>_view.SetText(x))
+                .Subscribe(_view.SetText)
                 .AddTo(_compositeDisposable);
         }
 
