@@ -29,11 +29,6 @@ namespace Manager.Stage
         /// </summary>
         [Inject] private IInputEventProvider _input;
         
-        /// <summary>
-        /// セーブマネージャー
-        /// </summary>
-        [Inject] private SaveManager _saveManager;
-        
         private List<GameObject> _stageObjects = new List<GameObject>();
 
         /// <summary>
@@ -100,8 +95,6 @@ namespace Manager.Stage
                         _tileObjectData.Clear();
                         
                         cuttentStageNumber++;
-                        //これはここでいいのか
-                        _saveManager.SetCurrentStageNumber(cuttentStageNumber+1);
                         CreateStage();   
                     }
                 });
@@ -120,14 +113,9 @@ namespace Manager.Stage
                         _tileObjectData.Clear();
                         
                         cuttentStageNumber--;
-                        //これはここでいいのか
-                        _saveManager.SetCurrentStageNumber(cuttentStageNumber+1);
                         CreateStage();   
                     }
                 });
-            
-            //これはここでいいのか
-            _saveManager.SetCurrentStageNumber(cuttentStageNumber+1);
         }
 
         /// <summary>

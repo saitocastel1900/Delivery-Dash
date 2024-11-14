@@ -4,6 +4,7 @@ using Commons.Const;
 using Zenject;
 using UniRx;
 using Block;
+using Commons.Save;
 using Input;
 using Manager.Stage;
 using Player;
@@ -36,11 +37,16 @@ namespace Manager.Command
         /// </summary>
         [Inject] private IInputEventProvider _input;
 
+        [Inject] private SaveManager _saveManager;
+
         /// <summary>
         /// 進行方向のリスト
         /// </summary>
         private readonly Stack<Vector3> _directionList = new Stack<Vector3>();
         
+        /// <summary>
+        /// コマンドのリスト
+        /// </summary>
         public IReactiveCollection<bool> BlockMovedList => blockMovedList;
         private ReactiveCollection<bool> blockMovedList = new ReactiveCollection<bool>();
         
@@ -63,6 +69,7 @@ namespace Manager.Command
               .MoveDirection
               .SkipLatestValueOnSubscribe()
               .Where(_=>_input.IsPlayGame.Value)
+              .Where(_=>_saveManager.Data.CurrentStageNumber<=_saveManager.Data.MaxStageClearNumber)
                 .Subscribe(OnMove)
                 .AddTo(this.gameObject);
            

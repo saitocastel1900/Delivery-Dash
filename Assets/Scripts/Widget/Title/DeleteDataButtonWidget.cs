@@ -24,13 +24,7 @@ public class DeleteDataButtonWidget : MonoBehaviour
       //ボタンが押されたら、データを削除する
       _deleteDataButton
          .OnClickAsObservable()
-         .Subscribe(_ =>
-         {
-            //え、これ前部アクセスできるくない
-            _saveManager.Data.CurrentStageNumber = 0;
-            _saveManager.Data.MaxStageClearNumber = 0;
-            _saveManager.Save();
-         })
+         .Subscribe(_ => _saveManager.Reset())
          .AddTo(this.gameObject);
    }
 }

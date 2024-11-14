@@ -16,11 +16,6 @@ public static class GameEnum
         Ready,
         
         /// <summary>
-        /// リザルト表示
-        /// </summary>
-        Result,
-        
-        /// <summary>
         /// ゲーム終了
         /// </summary>
         Finished,

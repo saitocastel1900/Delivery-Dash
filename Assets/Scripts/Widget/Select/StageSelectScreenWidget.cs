@@ -1,3 +1,4 @@
+using Commons.Save;
 using Input;
 using UniRx;
 using Zenject;
@@ -18,6 +19,11 @@ public class StageSelectScreenWidget : MonoBehaviour
     /// </summary>
     [Inject] private IInputEventProvider _inputEventProvider;
 
+    /// <summary>
+    /// SaveManager
+    /// </summary>
+    [Inject] private SaveManager _saveManager;
+
     private void Start()
     {
         //ゲームが始まったら、ステージセレクト画面のUIを表示する
@@ -31,6 +37,7 @@ public class StageSelectScreenWidget : MonoBehaviour
         _inputEventProvider
             .IsPlayGame
             .SkipLatestValueOnSubscribe()
+            .Where(_=>_saveManager.Data.CurrentStageNumber <=_saveManager.Data.MaxStageClearNumber)
             .Subscribe(_ => StartCoroutine(_canvasFader.FadeOut()))
             .AddTo(this.gameObject);
     }

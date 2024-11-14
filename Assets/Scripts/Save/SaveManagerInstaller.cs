@@ -9,7 +9,8 @@ namespace Commons.Save
     {
         public override void InstallBindings()
         {
-            Container.Bind<SaveManager>().AsSingle().NonLazy();
+            Container.Bind(typeof(SaveManager), typeof(IInitializable))
+                .To<SaveManager>().AsSingle().NonLazy();
         }
     }
 }

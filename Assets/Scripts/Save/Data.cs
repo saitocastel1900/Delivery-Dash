@@ -9,13 +9,24 @@ namespace Commons.Save
     public class SaveData
     {
         /// <summary>
+        /// 現在のステージ番号
+        /// </summary>
+        public int CurrentStageNumber = 0;
+        
+        /// <summary>
         /// クリアした最大のステージ番号
         /// </summary>
         public int MaxStageClearNumber = 0;
         
         /// <summary>
-        /// 現在のステージ番号
+        /// コンストラクタ
         /// </summary>
-        public int CurrentStageNumber = 0;
+        /// <param name="currentStageNumber"></param>
+        /// <param name="maxStageClearNumber"></param>
+        public SaveData(int currentStageNumber, int maxStageClearNumber)
+        {
+            CurrentStageNumber = currentStageNumber;
+            MaxStageClearNumber = maxStageClearNumber;
+        }
     }
 }
