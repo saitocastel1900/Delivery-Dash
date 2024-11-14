@@ -10,17 +10,23 @@ namespace Commons.Save
     public class SaveManager
     {
         /// <summary>
+        /// セーブするデータ
+        /// </summary>
+        public SaveData Data { get; private set; }
+        
+        /// <summary>
+        ///　現在のステージ番号
+        /// </summary>
+        public IReadOnlyReactiveProperty<int> CurrentStageNumber => _currentStageNumber;
+        private ReactiveProperty<int> _currentStageNumber = new ReactiveProperty<int>();
+        
+        /// <summary>
         /// コンストラクタ
         /// </summary>
         private SaveManager()
         {
             Load();
         }
-
-        /// <summary>
-        /// セーブするデータ
-        /// </summary>
-        public SaveData Data { get; private set; }
 
         /// <summary>
         /// 保存場所
@@ -62,22 +68,13 @@ namespace Commons.Save
         }
         
         /// <summary>
-        /// CurrentStageNumber の ReactiveProperty を公開
+        /// 現在のステージ番号を設定
         /// </summary>
-        public IReadOnlyReactiveProperty<int> CurrentStageNumber => _currentStageNumber;
-
-        /// <summary>
-        /// 現在のステージ番号を保存する ReactiveProperty
-        /// </summary>
-        private ReactiveProperty<int> _currentStageNumber = new ReactiveProperty<int>();
-        
-        /// <summary>
-        /// CurrentStageNumber を更新
-        /// </summary>
+        /// <param name="stageNumber">現在のステージ番号</param>
         public void SetCurrentStageNumber(int stageNumber)
         {
-            // ReactiveProperty の更新
             _currentStageNumber.Value = stageNumber;
+            Data.CurrentStageNumber = stageNumber;
         }
     }
 }
