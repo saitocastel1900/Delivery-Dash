@@ -42,7 +42,7 @@ public class AudioManagerComponent : MonoBehaviour
         /// <summary>
         /// SEのマスタ音量
         /// </summary>
-        [SerializeField, Range(0.0f, 1.0f), Tooltip("SEのマスタ音量")]
+        [SerializeField, Tooltip("SEのマスタ音量")]
         private FloatReactiveProperty seMasterVolume = new FloatReactiveProperty(1.0f);
         public IReactiveProperty<float> SeMasterVolume => seMasterVolume;
         
@@ -117,15 +117,15 @@ public class AudioManagerComponent : MonoBehaviour
         /// <param name="volume">設定する音量</param>
         public void SetBgmVolume(float volume)
         {
-            bgmMasterVolume.Value = Mathf.Clamp(volume,0.0f,0.1f);       
+            bgmMasterVolume.Value = Mathf.Clamp(volume,0.0f,1.0f);       
         }
-        
+       
         /// <summary>
         /// SEの音量を設定する
         /// </summary>
         /// <param name="volume">設定する音量</param>
         public void SetSoundEffectVolume(float volume)
         {
-            seMasterVolume.Value = Mathf.Clamp(volume,0.0f,0.1f);            
+            seMasterVolume.Value = Mathf.Clamp(volume,0.0f,1.0f);            
         }
     }
