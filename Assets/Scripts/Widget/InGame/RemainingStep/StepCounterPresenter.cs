@@ -46,10 +46,17 @@ public class StepCounterPresenter : IDisposable, IInitializable
     /// </summary>
     private void Bind()
     {
-        //移動したら、コマンド数を設定する
+        //移動したらまたは次のステージに移動したら、コマンド数を設定する
         _inGameCommandManager
             .BlockMovedList
             .ObserveAdd()
+            .Select(x=>_inGameCommandManager.BlockMovedList.Count)
+            .Subscribe(_view.SetText)
+            .AddTo(_compositeDisposable);
+        
+        _inGameCommandManager
+            .BlockMovedList
+            .ObserveReset()
             .Select(x=>_inGameCommandManager.BlockMovedList.Count)
             .Subscribe(_view.SetText)
             .AddTo(_compositeDisposable);
