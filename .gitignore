@@ -85,3 +85,10 @@ Assets/CRIMW.meta
 
 Assets/CRIData.meta
 Assets/CRIMW/*
+
+# TextMesh Pro files
+[Aa]ssets/TextMesh*Pro/
+[Aa]ssets/TextMesh*Pro.meta
+
+# Probuilder files
+[Aa]ssets/ProBuilder*
