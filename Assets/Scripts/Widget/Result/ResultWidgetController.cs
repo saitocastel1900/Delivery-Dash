@@ -1,74 +1,34 @@
-﻿using System.Collections.Generic;
-using Commons.Audio;
-using Commons.Const;
-using Commons.Save;
-using DG.Tweening;
+﻿using System;
 using UniRx;
 using UnityEngine;
-using UnityEngine.UI;
-using Zenject;
 
 namespace Widget.Result
 {
+    /// <summary>
+    /// リザルトを管理する
+    /// </summary>
     public class ResultWidgetController : MonoBehaviour
     {
         /// <summary>
-        /// アニメーションが終了したら呼ばれる
+        /// ダイアログを表示するか
         /// </summary>
-        public IReadOnlyReactiveProperty<bool> IsAnimationFinished => _isAnimationFinished;
-        private BoolReactiveProperty _isAnimationFinished = new BoolReactiveProperty(false);
-
-        /// <summary>
-        /// Text
-        /// </summary>
-        [SerializeField] private Text _text;
-
-        /// <summary>
-        /// String
-        /// </summary>
-        private List<string> _message = new List<string>()
-        {
-            "Completed!",
-            "Next.. "
-        };
+        public IObservable<Unit> OnShowResultWidgetAsObservable => _resultWidgetSubject;
+        private Subject<Unit> _resultWidgetSubject = new Subject<Unit>();
         
         /// <summary>
-        /// AudioManager
+        /// マーカー読み取りのガイドが終了したか
         /// </summary>
-        [Inject] private AudioManager _audioManager;
-
+        public IObservable<Unit> OnFinishResult => _stageClearAndNextStageWidgetSubject;
+        private Subject<Unit> _stageClearAndNextStageWidgetSubject = new Subject<Unit>();
+   
         /// <summary>
-        /// SaveManager
+        /// リザルト表示を開始する
         /// </summary>
-        [Inject] private SaveManager _saveManager;
-
+        public void StartResult() => _resultWidgetSubject.OnNext(Unit.Default);
+        
         /// <summary>
-        /// リザルトアニメーション
+        /// ガイドのアニメーションが終了した
         /// </summary>
-        public void Animation()
-        {
-            DOTween.Sequence()
-                .AppendCallback(()=>_audioManager.PlaySoundEffect(SoundEffect.Result1))
-                .Append(_text.DOText(_message[0], 0.5f, scrambleMode: ScrambleMode.None).SetEase(Ease.Linear))
-                .Append(_text.DOFade(0f, 0.1f).SetEase(Ease.Linear))
-                .Append(_text.DOFade(1f, 0.1f).SetEase(Ease.Linear))
-                .AppendCallback(()=>_audioManager.PlaySoundEffect(SoundEffect.Result2))
-                .AppendInterval(0.5f)
-                .Append(_text.transform.DORotate(new Vector3(90, 0, 0), 0.2f).SetEase(Ease.Linear))
-                .AppendCallback(()=>_audioManager.PlaySoundEffect(SoundEffect.Result3))
-                .Append(_text
-                    .DOText(_message[1] + _saveManager.Data.CurrentStageNumber + "/" + Const.StagesNumber, 0.0f,
-                        scrambleMode: ScrambleMode.None).SetEase(Ease.Linear)).SetLink(this.gameObject)
-                .Append(_text.transform.DORotate(new Vector3(0, 0, 0), 0.2f).SetEase(Ease.Linear))
-                .OnComplete(() => _isAnimationFinished.Value = true);
-        }
-
-        /// <summary>
-        /// 表示を設定
-        /// </summary>
-        public void SetView(bool isView)
-        {
-            _text.gameObject.SetActive(isView);
-        }
+        public void FinishStageClearAndNextStageAnimation() => _stageClearAndNextStageWidgetSubject.OnNext(Unit.Default);
     }
 }

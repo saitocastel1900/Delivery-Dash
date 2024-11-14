@@ -1,20 +1,30 @@
 using System;
+using Commons.Save;
+using Input;
 using UniRx;
 using Zenject;
 
 namespace Widget.InGame.StageNumber
 {
+    /// <summary>
+    /// ステージ番号のデータと見た目の橋渡しをする
+    /// </summary>
     public class StageNumberPresenter : IDisposable, IInitializable
     {
-        /// <summary>
-        /// Model
-        /// </summary>
-        private IStageNumberModel _model;
-
         /// <summary>
         /// View
         /// </summary>
         private StageNumberView _view;
+
+        /// <summary>
+        /// IInputEventProvider
+        /// </summary>
+        private IInputEventProvider _input;
+        
+        /// <summary>
+        /// SaveManager
+        /// </summary>
+        private SaveManager _saveManager;
 
         /// <summary>
         /// Disposable
@@ -24,10 +34,11 @@ namespace Widget.InGame.StageNumber
         /// <summary>
         /// コンストラクタ
         /// </summary>
-        public StageNumberPresenter(IStageNumberModel model, StageNumberView view)
+        public StageNumberPresenter(StageNumberView view, SaveManager saveManager, IInputEventProvider input)
         {
-            _model = model;
             _view = view;
+            _saveManager = saveManager;
+            _input = input;
         }
 
         /// <summary>
@@ -36,26 +47,20 @@ namespace Widget.InGame.StageNumber
         public void Initialize()
         {
             _compositeDisposable = new CompositeDisposable();
+            _saveManager.Load();
             Bind();
         }
-
+        
         /// <summary>
         /// Bind
         /// </summary>
         private void Bind()
         {
-            _model.StageNumberProp
-                .Subscribe(_view.SetText)
+            //ステージに移動したら、そのステージの番号を反映する
+            _saveManager
+                .CurrentStageNumber
+                .Subscribe(x=>_view.SetText(x))
                 .AddTo(_compositeDisposable);
-        }
-        
-        /// <summary>
-        /// ステージ番号を設定
-        /// </summary>
-        /// <param name="number">番号</param>
-        public void SetStageNumber(int number)
-        {
-            _model.SetStageNumber(number);
         }
 
         /// <summary>
