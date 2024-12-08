@@ -3,7 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class UpedButtonAudio : MonoBehaviour
+/// <summary>
+/// コンテンツを閉じるボタンの音を管理する
+/// </summary>
+public class ContentCloseButtonAudio : MonoBehaviour
 {
     /// <summary>
     ///Button

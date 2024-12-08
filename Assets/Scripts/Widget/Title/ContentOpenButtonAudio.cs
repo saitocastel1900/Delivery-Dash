@@ -3,7 +3,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using Zenject;
 
-public class PressedButtonAudio : MonoBehaviour
+/// <summary>
+/// コンテンツを開くボタンの音を管理する
+/// </summary>
+public class ContentOpenButtonAudio : MonoBehaviour
 {
    /// <summary>
    /// Button
