@@ -48,7 +48,9 @@ namespace Widget.Select
         
         private void Start()
         {
-            SetStageSelectIcon(_saveManager.Data.CurrentStageNumber-1);
+            _saveManager.Load();
+            
+            SetStageSelectIcon(_saveManager.Data.MaxStageClearNumber-1);
             
             SetStageSelectPanelListScale();
             
