@@ -1,7 +1,7 @@
-using Commons.Const;
 using Commons.Save;
 using DG.Tweening;
 using Manager.Command;
+using TMPro;
 using UniRx;
 using UnityEngine;
 using UnityEngine.UI;
@@ -26,18 +26,13 @@ public class ResultCutinWidget : MonoBehaviour
     /// <summary>
     /// 表示するメッセージ
     /// </summary>
-    [SerializeField] private Text _messageText;
+    [SerializeField] private TextMeshProUGUI _messageText;
 
     /// <summary>
     /// BackgroundScroller
     /// </summary>
     [SerializeField] private RawImageScroller _backgroundScroller;
-
-    /// <summary>
-    /// TextScroller
-    /// </summary>
-    [SerializeField] private TextScroller _textScroller;
-
+    
     /// <summary>
     /// ResultWidgetController
     /// </summary>
@@ -88,11 +83,10 @@ public class ResultCutinWidget : MonoBehaviour
     {
         _sequence?.Kill();
         _stripeImage.rectTransform.sizeDelta = new Vector2(_stripeImage.rectTransform.sizeDelta.x, 2);
-        _messageText.rectTransform.sizeDelta = new Vector2(_stripeImage.rectTransform.sizeDelta.x, 2);
+        _messageText.rectTransform.sizeDelta = new Vector2(_messageText.rectTransform.sizeDelta.x, 2);
         _messageText.rectTransform.localScale = new Vector3(1, 0, 1);
         _canvasGroup.alpha = 0;
         _defaultStripeScrollSpeed = _backgroundScroller.ScrollSpeedX;
-        _defaultTextScrollSpeed = _textScroller.Speed;
     }
 
     /// <summary>
@@ -105,35 +99,38 @@ public class ResultCutinWidget : MonoBehaviour
         //カットイン表示
         _sequence = DOTween.Sequence()
             .Append(_canvasGroup.DOFade(1f, 0.25f))
-            .Join(_messageText.DOText($"ゲームクリア！　ステップ数：{_inGameCommandManager.BlockMovedList.Count}", 0.0f, scrambleMode: ScrambleMode.None))
+            .Join(_messageText.DOText("ゲームクリア！", 0.0f, scrambleMode: ScrambleMode.None))
             .Join(_stripeImage.rectTransform.DOSizeDelta(new Vector2(_stripeImage.rectTransform.sizeDelta.x, 500), 0.25f))
             .Join(_messageText.rectTransform.DOSizeDelta(new Vector2(_messageText.rectTransform.sizeDelta.x, 500), 0.25f))
-            .Join(_messageText.rectTransform.DOScaleY(1, 0.25f));
+            .Join(_messageText.rectTransform.DOScaleY(1, 0.25f))
+            .AppendCallback(()=>_audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.ResultScroll));
 
         //スクロールスピードを下げる
         _sequence
             .Append(DOTween.To(() => _backgroundScroller.ScrollSpeedX, x => _backgroundScroller.ScrollSpeedX = x,
                 0.5f, 1f))
-            .Join(DOTween.To(() => _textScroller.Speed, x => _textScroller.Speed = x, 500, 1f))
-            .AppendInterval(2f);
+            .AppendInterval(0.5f);
 
         //スクロールを止める
         _sequence
             .Append(DOTween.To(() => _backgroundScroller.ScrollSpeedX, x => _backgroundScroller.ScrollSpeedX = x, 0f,
                 0.5f))
-            .Join(DOTween.To(() => _textScroller.Speed, x => _textScroller.Speed = x, 0f, 0.5f))
-            .AppendInterval(0.5f);
+            .AppendInterval(0.5f)
+            .AppendCallback(()=>_audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.ResultUp));
 
         //文字を飛び出させる
         _sequence
             .Join(_messageText.rectTransform.DOScale(2f, 0.1f))
-            .Join(_messageText.DOFade(0f, 0.1f));
+            .Join(_messageText.DOFade(0f, 0.1f))
+            .AppendInterval(0.5f);
 
         //文字を基の場所に戻す
         _sequence
-            .Append(_messageText.DOText($"残り.. {_saveManager.Data.CurrentStageNumber}/{Const.StagesMaxNumber}", 0.0f, scrambleMode: ScrambleMode.None))
+            .Append(_messageText.DOText($"ネクスト.. {_saveManager.Data.CurrentStageNumber + 1}", 0.0f,
+                scrambleMode: ScrambleMode.None))
             .Join(_messageText.rectTransform.DOScale(1f, 0.1f))
-            .Join(_messageText.DOFade(1f, 0.1f));
+            .Join(_messageText.DOFade(1f, 0.1f))
+            .AppendCallback(()=>_audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.ResultShake));
         
         //周りを揺らす
         _sequence
@@ -151,8 +148,7 @@ public class ResultCutinWidget : MonoBehaviour
             {
                 _resultWidgetController.FinishCutinAnimation();
                 _backgroundScroller.ScrollSpeedX = _defaultStripeScrollSpeed;
-                _textScroller.Speed = _defaultTextScrollSpeed;
-            });
+              });
         
         //アニメーション再生
         _sequence
