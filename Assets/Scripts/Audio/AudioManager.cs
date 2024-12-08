@@ -7,11 +7,6 @@ using UnityEngine;
 public class AudioManager : MonoBehaviour
 {
     /// <summary>
-    /// AudioManagerComponent
-    /// </summary>
-    [SerializeField] private AudioManagerComponent _component;
-    
-    /// <summary>
     /// BGMの音量
     /// </summary>
     public IReactiveProperty<float> BgmMasterVolume => _component.BgmMasterVolume;
@@ -20,6 +15,21 @@ public class AudioManager : MonoBehaviour
     /// SEの音量
     /// </summary>
     public IReactiveProperty<float> SeMasterVolume => _component.SeMasterVolume;
+
+    /// <summary>
+    /// BGMを再生するか
+    /// </summary>
+    public IReactiveProperty<bool> IsPlayBgm => _component.IsPlayBgm;
+    
+    /// <summary>
+    /// SEを再生するか
+    /// </summary>
+    public IReactiveProperty<bool> IsPlaySe => _component.IsPlaySe;
+    
+    /// <summary>
+    /// AudioManagerComponent
+    /// </summary>
+    [SerializeField] private AudioManagerComponent _component;
 
     /// <summary>
     /// BGMを流す
@@ -55,5 +65,21 @@ public class AudioManager : MonoBehaviour
     public void SetSoundEffectVolume(float volume)
     {
         _component.SetSoundEffectVolume(volume);
+    }
+    
+    /// <summary>
+    /// BGMのオン・オフを切り替える
+    /// </summary>
+    public void SwitchPlayBgmState()
+    {
+        _component.SwitchPlayBgmState();
+    }
+    
+    /// <summary>
+    /// SEのオン・オフを切り替える
+    /// </summary>
+    public void SwitchPlaySeState()
+    {
+        _component.SwitchPlaySeState();
     }
 }

@@ -12,13 +12,20 @@ public class SoundEffectData
     /// </summary>
     public enum SoundEffect
     {
-        ButtonClick,
-        MissileLaunch,
-        BuildingBreak,
-        GameClear1,
-        GameClear2,
-        GameClear3,
-        WidgetClick,
+        OpenContent,
+        CloseContent,
+        CannotSelectStage,
+        DeterminedStage,
+        SelectedStage,
+        Appeared,
+        PushedUndoButton,
+        Reset,
+        MovePlayer,
+        MoveBlock,
+        Delivered,
+        ResultScroll,
+        ResultUp,
+        ResultShake
     }
 
     /// <summary>
