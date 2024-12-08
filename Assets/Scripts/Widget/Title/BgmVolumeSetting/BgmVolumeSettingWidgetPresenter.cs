@@ -17,7 +17,12 @@ public class BgmVolumeSettingWidgetPresenter : MonoBehaviour
     /// 音量設定のスライダー
     /// </summary>
     [SerializeField] private Slider _bgmVolumeSlider;
-
+    
+    /// <summary>
+    /// 音量オン・オフボタン
+    /// </summary>
+    [SerializeField] private AudioSwitchButton _bgmSwitchButton;
+    
     /// <summary>
     /// AudioManager
     /// </summary>
@@ -35,5 +40,17 @@ public class BgmVolumeSettingWidgetPresenter : MonoBehaviour
         _audioManager.BgmMasterVolume
             .Subscribe(volume=> _view.SetBGMVolumeText((int)Mathf.Round(volume*10)))
             .AddTo(this);
+
+        //音量の音量オン・オフを切り替える
+        _bgmSwitchButton
+            .OnClickAsObservable
+            .Subscribe(_ => _audioManager.SwitchPlayBgmState())
+            .AddTo(this.gameObject);
+
+        //音量オン・オフに応じて、ボタンの見た目を切り替える
+        _audioManager
+            .IsPlayBgm
+            .Subscribe(_bgmSwitchButton.SetView)
+            .AddTo(this.gameObject);
     }
 }
