@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using System.Collections.Generic;
 using Commons.Const;
 using Zenject;
@@ -70,13 +71,18 @@ namespace Manager.Command
               .SkipLatestValueOnSubscribe()
               .Where(_=>_input.IsPlayGame.Value)
               .Where(_=>_saveManager.Data.CurrentStageNumber<=_saveManager.Data.MaxStageClearNumber)
+              .ThrottleFirst(TimeSpan.FromSeconds(0.25f))
                 .Subscribe(OnMove)
                 .AddTo(this.gameObject);
            
             _input
                 .IsUndo
                 .SkipLatestValueOnSubscribe()
-                .Subscribe(_ => OnUndo());
+                .Subscribe(_ =>
+                {
+                    OnUndo();
+                    _audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.PushedUndoButton);
+                });
         }
 
         /// <summary>
