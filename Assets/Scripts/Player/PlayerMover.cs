@@ -1,9 +1,8 @@
 using System;
-using Input;
 using Manager.Command;
 using UniRx;
 using UnityEngine;
-using Zenject;
+using DG.Tweening;
 
 namespace Player
 {
@@ -15,31 +14,31 @@ namespace Player
         /// <summary>
         /// 移動したら呼ばれる
         /// </summary>
-        public IObservable<Unit> OnMove => _moveSubject;
-        private Subject<Unit> _moveSubject = new Subject<Unit>();
-
+        public IObservable<Vector3> OnMove => _moveSubject;
+        private Subject<Vector3> _moveSubject = new Subject<Vector3>();
+     
         /// <summary>
-        /// Input
+        /// Transform
         /// </summary>
-        [Inject] protected IInputEventProvider _input;
-        
-        private void Start()
-        {
-            //入力に応じて、移動する
-            _input
-                .MoveDirection
-                .Subscribe()
-                .AddTo(this.gameObject);
-        }
+        [SerializeField] private Transform _transform;
 
         /// <summary>
         /// 移動
         /// </summary>
         /// <param name="direction">移動方向</param>
-        public void Move(Vector3 direction)
+        /// <param name="isUndo">Undoで実行したか</param>
+        public void Move(Vector3 direction,bool isUndo = false)
         {
-            transform.position += direction;
-            _moveSubject.OnNext(Unit.Default);
+            //Undoのときは、アニメーションをしないで動かす
+            if (isUndo)
+            {
+                _transform.position += direction;
+                _transform.forward = direction;
+            }
+            else
+            {
+                _moveSubject.OnNext(direction);   
+            }
         }
     }
 }

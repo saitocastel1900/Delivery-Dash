@@ -35,6 +35,11 @@ namespace Widget.Select
         /// SaveManager
         /// </summary>
         [Inject] private SaveManager _saveManager;
+
+        /// <summary>
+        /// AudioManager
+        /// </summary>
+        [Inject] private AudioManager _audioManager;
         
         /// <summary>
         /// Tween
@@ -46,8 +51,7 @@ namespace Widget.Select
             SetStageSelectIcon(_saveManager.Data.CurrentStageNumber-1);
             
             SetStageSelectPanelListScale();
-
-            //TODO: ここはinputでvector3を要れたらいいかも
+            
             //入力に応じて、ステージ選択アイコンを回転させる
             _inputEventProvider
                 .IsRight
@@ -114,6 +118,8 @@ namespace Widget.Select
             _saveManager.SetCurrentStageNumber(_saveManager.Data.CurrentStageNumber + direction);
             
             TurnAnimation();
+            
+            _audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.SelectedStage);
         }
 
         /// <summary>

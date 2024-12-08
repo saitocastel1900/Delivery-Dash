@@ -28,7 +28,7 @@ namespace Manager.Stage
         /// IInputEventProvider
         /// </summary>
         [Inject] private IInputEventProvider _input;
-        
+
         private List<GameObject> _stageObjects = new List<GameObject>();
 
         /// <summary>
@@ -167,7 +167,7 @@ namespace Manager.Stage
 
                     //床オブジェクトは無条件で生成
                     var ground = Instantiate(_stageDatas[cuttentStageNumber].GroundObject,
-                        GetDisplayPosition(new Vector3(x, -1, z)), Quaternion.identity);
+                        GetDisplayPosition(new Vector3(x, 0, z)), Quaternion.identity);
                     ground.name = StageObjectParametersConst.GroundName;
                     ground.transform.parent = _parentObject.transform;
                     _stageObjects.Add(ground);

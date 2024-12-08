@@ -1,4 +1,6 @@
-﻿using Manager.Command;
+﻿using System;
+using Manager.Command;
+using UniRx;
 using UnityEngine;
 
 namespace Block
@@ -9,12 +11,31 @@ namespace Block
     public class BlockMover : MonoBehaviour, IReceiver
     {
         /// <summary>
+        /// Transform
+        /// </summary>
+        [SerializeField] private Transform _transform;
+        
+        /// <summary>
+        /// 移動したら呼ばれる
+        /// </summary>
+        public IObservable<Vector3> OnMove => _moveSubject;
+        private Subject<Vector3> _moveSubject = new Subject<Vector3>();
+        
+        /// <summary>
         /// 移動
         /// </summary>
         /// <param name="direction">移動方向</param>
-        public void Move(Vector3 direction)
+        ///   /// <param name="isUndo">Undoで実行したか</param>
+        public void Move(Vector3 direction,bool isUndo = false)
         {
-            transform.position += direction;
+            if (isUndo)
+            {
+                _transform.position += direction;
+            }
+            else
+            {
+                _moveSubject.OnNext(direction);   
+            }
         }
     }
 }

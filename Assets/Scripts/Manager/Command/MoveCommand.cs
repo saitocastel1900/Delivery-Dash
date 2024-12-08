@@ -33,7 +33,7 @@ namespace Manager.Command
         /// </summary>
         public void Execute()
         {
-            _receiver.Move(_direction);
+            _receiver.Move(_direction,false);
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace Manager.Command
         /// </summary>
         public void Undo()
         {
-            _receiver.Move(-_direction);
+            _receiver.Move(-_direction,true);
         }
     }
 }

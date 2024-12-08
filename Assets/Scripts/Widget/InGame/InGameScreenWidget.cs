@@ -24,7 +24,7 @@ public class InGameScreenWidget : MonoBehaviour
     /// IInputEventProvider
     /// </summary>
     [Inject] private IInputEventProvider _inputEventProvider;
-
+    
     /// <summary>
     /// SaveManager
     /// </summary>

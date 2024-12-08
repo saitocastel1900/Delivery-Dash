@@ -19,6 +19,11 @@ public class SeVolumeSettingWidgetPresenter : MonoBehaviour
     [SerializeField] private Slider _seVolumeSlider;
 
     /// <summary>
+    /// 音量オン・オフボタン
+    /// </summary>
+    [SerializeField] private AudioSwitchButton _seSwitchButton;
+    
+    /// <summary>
     /// AudioManager
     /// </summary>
     [Inject] private AudioManager _audioManager;
@@ -35,5 +40,17 @@ public class SeVolumeSettingWidgetPresenter : MonoBehaviour
         _audioManager.SeMasterVolume
             .Subscribe(volume=> _view.SetSoundEffectVolumeText((int)Mathf.Round(volume*10)))
             .AddTo(this);
+        
+        //音量の音量オン・オフを切り替える
+        _seSwitchButton
+            .OnClickAsObservable
+            .Subscribe(_ => _audioManager.SwitchPlaySeState())
+            .AddTo(this.gameObject);
+
+        //音量オン・オフに応じて、ボタンの見た目を切り替える
+        _audioManager
+            .IsPlaySe
+            .Subscribe(_seSwitchButton.SetView)
+            .AddTo(this.gameObject);
     }
 }
