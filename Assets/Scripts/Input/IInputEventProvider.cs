@@ -29,7 +29,7 @@ namespace Input
         public IReadOnlyReactiveProperty<bool> IsLeft { get; }
         
         /// <summary>
-        /// シーン遷移が押されたか
+        /// ステージ攻略開始ボタンが押されたか
         /// </summary>
         public IReadOnlyReactiveProperty<bool> IsPlayGame { get; }
         
