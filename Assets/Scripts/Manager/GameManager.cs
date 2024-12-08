@@ -17,8 +17,8 @@ public class GameManager : MonoBehaviour
     /// <summary>
     /// 現在のゲームの状態
     /// </summary>
-    public IReactiveProperty<GameEnum.State> CurrentStateProp => _currentState;
-    private ReactiveProperty<GameEnum.State> _currentState = new ReactiveProperty<GameEnum.State>();
+    public IReactiveProperty<GameEnum.State> CurrentStateProp => _currentStateProp;
+    private ReactiveProperty<GameEnum.State> _currentStateProp = new ReactiveProperty<GameEnum.State>();
 
     /// <summary>
     /// InGameMoveCommandManager
@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         //状態に応じて対応した各々のメソッドが呼ばれるｓ
-        _currentState
+        _currentStateProp
             .DistinctUntilChanged()
             .Subscribe(OnStateChanged)
             .AddTo(this.gameObject);
@@ -70,6 +70,7 @@ public class GameManager : MonoBehaviour
             {
                 _stageGenerator.Reset();
                 _commandManager.Reset();
+                _audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.Reset);
             })
             .AddTo(this.gameObject);
         
@@ -86,7 +87,7 @@ public class GameManager : MonoBehaviour
         _inputEventProvider
             .IsGameStart
             .SkipLatestValueOnSubscribe()
-            .Subscribe(_=>_currentState.Value = GameEnum.State.Ready)
+            .Subscribe(_=>_currentStateProp.Value = GameEnum.State.Ready)
             .AddTo(this.gameObject);
         
         StartCoroutine(_canvasFader.FadeOut());
@@ -127,13 +128,17 @@ public class GameManager : MonoBehaviour
         _commandManager
             .IsDelivered
             .Where(x=>x==true)
-            .Subscribe(_=>_resultWidget.StartResult())
+            .Subscribe(_=>
+            {
+                _audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.Delivered);
+                _resultWidget.StartResult();
+            })
             .AddTo(this.gameObject);
         
         //リザルトを表示できたら、ゲーム終了
         _resultWidget.
             OnFinishResult
-            .Subscribe(_ => _currentState.Value = GameEnum.State.Finished)
+            .Subscribe(_ => _currentStateProp.Value = GameEnum.State.Finished)
             .AddTo(this.gameObject);
         
         _stageGenerator.CreateStage();
@@ -160,7 +165,7 @@ public class GameManager : MonoBehaviour
 
         _saveManager.Save();
         
-        _currentState.Value = GameEnum.State.Next;
+        _currentStateProp.Value = GameEnum.State.Next;
     }
 
     /// <summary>
