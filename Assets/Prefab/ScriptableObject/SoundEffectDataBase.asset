@@ -15,19 +15,19 @@ MonoBehaviour:
   _SoundEffectDataList:
   - se: 0
     audioClip: {fileID: 8300000, guid: 181a139e5d6524c04b88bd913e380dc8, type: 3}
-    volume: 1
+    volume: 0.954
   - se: 1
     audioClip: {fileID: 8300000, guid: 9404fe260943f445c87c0e9c4d9b84ae, type: 3}
-    volume: 1
+    volume: 0.963
   - se: 2
     audioClip: {fileID: 8300000, guid: 38c586cf193a44c16863da4a9ede9cf6, type: 3}
-    volume: 1
+    volume: 0.921
   - se: 3
     audioClip: {fileID: 8300000, guid: ce67a5447e66c407bbf963e013588947, type: 3}
     volume: 1
   - se: 4
     audioClip: {fileID: 8300000, guid: e8ff0a60ce16f4484963cebc8aeebaef, type: 3}
-    volume: 1
+    volume: 0.967
   - se: 5
     audioClip: {fileID: 8300000, guid: 8e50ef16558c1452f9d668ff5fec47b1, type: 3}
     volume: 1
@@ -39,19 +39,19 @@ MonoBehaviour:
     volume: 1
   - se: 8
     audioClip: {fileID: 8300000, guid: 8c6b0c358c69a42b2b85cc30dda6ef8a, type: 3}
-    volume: 1
+    volume: 0.763
   - se: 9
     audioClip: {fileID: 8300000, guid: af06c37c3437d4396b697be378bae84e, type: 3}
-    volume: 1
+    volume: 0.709
   - se: 10
     audioClip: {fileID: 8300000, guid: 5a81d5a576cbc459bb42ddabcf6cf3fb, type: 3}
-    volume: 1
+    volume: 0.958
   - se: 11
     audioClip: {fileID: 8300000, guid: c194da633ec5b482d8129e092c0e2420, type: 3}
-    volume: 1
+    volume: 0.958
   - se: 12
     audioClip: {fileID: 8300000, guid: 3d1230d59bd83415ca3424f72181fcf8, type: 3}
-    volume: 1
+    volume: 0.942
   - se: 13
     audioClip: {fileID: 8300000, guid: aaf0907454c4440308d5c40835d64592, type: 3}
     volume: 1

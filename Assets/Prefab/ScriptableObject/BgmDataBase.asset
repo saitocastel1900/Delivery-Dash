@@ -15,4 +15,4 @@ MonoBehaviour:
   _BgmDataList:
   - bgm: 0
     audioClip: {fileID: 8300000, guid: c32c8d6ce536648f9b0b9bbec202cdb0, type: 3}
-    volume: 0.578
+    volume: 0.258

@@ -77,8 +77,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _mover: {fileID: 121890921368831343}
   _transform: {fileID: 8048146306332335278}
-  _duration: 0.35
-  _apperDuration: 0.5
+  _moveDuration: 0.35
+  _appearDuration: 0.35
+  _appearWaitTime: 0.5
 --- !u!114 &-8076877242243193944
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -156,6 +157,10 @@ PrefabInstance:
       propertyPath: m_ConstrainProportionsScale
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -7511558181221131132, guid: ca08a82928cd6b84d94425e50a6b7b7d, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 4565762848bba478880de0af86835614, type: 2}
     - target: {fileID: 919132149155446097, guid: ca08a82928cd6b84d94425e50a6b7b7d, type: 3}
       propertyPath: m_Name
       value: bluerobot
