@@ -11,6 +11,7 @@ namespace Manager.Command
         /// 移動
         /// </summary>
         /// <param name="direction">移動方向</param>
-        public void Move(Vector3 direction);
+        /// <param name="isUndo">Undoで実行したか</param>
+        public void Move(Vector3 direction,bool isUndo = false);
     }
 }
