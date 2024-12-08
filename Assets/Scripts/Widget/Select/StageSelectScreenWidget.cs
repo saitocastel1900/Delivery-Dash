@@ -23,6 +23,11 @@ public class StageSelectScreenWidget : MonoBehaviour
     /// SaveManager
     /// </summary>
     [Inject] private SaveManager _saveManager;
+    
+    /// <summary>
+    /// AudioManager
+    /// </summary>
+    [Inject] private AudioManager _audioManager;
 
     private void Start()
     {
@@ -38,7 +43,19 @@ public class StageSelectScreenWidget : MonoBehaviour
             .IsPlayGame
             .SkipLatestValueOnSubscribe()
             .Where(_=>_saveManager.Data.CurrentStageNumber <=_saveManager.Data.MaxStageClearNumber)
-            .Subscribe(_ => StartCoroutine(_canvasFader.FadeOut()))
+            .Subscribe(_ =>
+            {
+                StartCoroutine(_canvasFader.FadeOut());
+                _audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.DeterminedStage);
+            })
+            .AddTo(this.gameObject);
+        
+        //遊べないステージを選択したら、エラー音を再生する
+        _inputEventProvider
+            .IsPlayGame
+            .SkipLatestValueOnSubscribe()
+            .Where(_=>!(_saveManager.Data.CurrentStageNumber <=_saveManager.Data.MaxStageClearNumber))
+            .Subscribe(_ => _audioManager.PlaySoundEffect(SoundEffectData.SoundEffect.CannotSelectStage))
             .AddTo(this.gameObject);
     }
 }
