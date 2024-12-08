@@ -75,8 +75,6 @@ public class GameManager : MonoBehaviour
             .AddTo(this.gameObject);
         
         //Quite
-        //TODO:ここは変える必要がある
-        //SceneManagerをつかわないリセット
         _inputEventProvider
             .IsQuit
             .SkipLatestValueOnSubscribe()
