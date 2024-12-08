@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Commons.Const;
-using Commons.Save;
 using Input;
 using UniRx;
 using UnityEngine;
@@ -29,6 +28,9 @@ namespace Manager.Stage
         /// </summary>
         [Inject] private IInputEventProvider _input;
 
+        /// <summary>
+        /// Stageオブジェクトのリスト
+        /// </summary>
         private List<GameObject> _stageObjects = new List<GameObject>();
 
         /// <summary>
