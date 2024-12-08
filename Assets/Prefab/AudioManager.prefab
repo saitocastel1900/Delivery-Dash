@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 11478229735494811}
   - component: {fileID: 2591561052815733207}
+  - component: {fileID: 6700809286616648518}
   m_Layer: 0
   m_Name: SEAudioSource
   m_TagString: Untagged
@@ -128,6 +129,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!169 &6700809286616648518
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1744211127448151551}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 2
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.20418371
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &2719355408161918178
 GameObject:
   m_ObjectHideFlags: 0
@@ -138,6 +164,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6223468008963389622}
   - component: {fileID: 292612407800638800}
+  - component: {fileID: 695115114962024345}
   m_Layer: 0
   m_Name: BGMAudioSource
   m_TagString: Untagged
@@ -173,7 +200,7 @@ AudioSource:
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 1
   m_Volume: 1
-  m_Pitch: 1
+  m_Pitch: 0.95
   Loop: 0
   Mute: 0
   Spatialize: 0
@@ -256,6 +283,31 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!169 &695115114962024345
+AudioLowPassFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2719355408161918178}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_LowpassResonanceQ: 2
+  lowpassLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0.1814461
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &8132489625061326301
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,12 +368,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dcbca0ad7b6886f469f694d24a78c26e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  bgmMasterVolume:
+    value: 1
+  seMasterVolume:
+    value: 1
   _bgmAudioSourceSource: {fileID: 292612407800638800}
   _seAudioSourceSource: {fileID: 2591561052815733207}
   _bgmDataBase: {fileID: 11400000, guid: 46181cf0b36211f4980773fd3d258bf5, type: 2}
   _soundEffectDataBase: {fileID: 11400000, guid: 8e2c3f26b46233b43b443b0fd565b946, type: 2}
   masterVolume: 1
-  bgmMasterVolume:
-    value: 1
-  seMasterVolume:
-    value: 1
