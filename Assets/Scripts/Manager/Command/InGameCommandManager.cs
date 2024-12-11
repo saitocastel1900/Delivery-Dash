@@ -38,6 +38,9 @@ namespace Manager.Command
         /// </summary>
         [Inject] private IInputEventProvider _input;
 
+        /// <summary>
+        /// SaveManager
+        /// </summary>
         [Inject] private SaveManager _saveManager;
 
         /// <summary>
@@ -215,7 +218,7 @@ namespace Manager.Command
                 
                 var currentPlayerPos = _stageManager.GetObjectPosition(_player);
                 var nextPlayerPos = _stageManager.GetNextPosition(currentPlayerPos, -direction);
-
+                
                 //ブロックが動かされていたら、ブロックも移動を巻き戻す
                 if (_blockIsMovedList.Count > 0 && _blockIsMovedList.Pop())
                 {
@@ -266,6 +269,8 @@ namespace Manager.Command
                             _stageManager.SetTileType(nextPlayerPos.x, nextPlayerPos.z, TileType.PLAYER_ON_TARGET);
                             break;
                     }
+                    
+                    blockMovedList.RemoveAt(_blockIsMovedList.Count-1);
                 }
                 else
                 {
@@ -289,6 +294,8 @@ namespace Manager.Command
                             _stageManager.SetTileType(nextPlayerPos.x, nextPlayerPos.z, TileType.PLAYER_ON_TARGET);
                             break;
                     }
+                    
+                    blockMovedList.RemoveAt(_blockIsMovedList.Count-1);
                 }
             }
         }
