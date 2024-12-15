@@ -36,7 +36,7 @@ namespace Manager.Stage
         /// <summary>
         /// 現在のステージ番号
         /// </summary>
-        private int cuttentStageNumber = 0;
+        private int _currentStageNumber = 1;
         
         /// <summary>
         /// 進行方向のマップ
@@ -89,14 +89,14 @@ namespace Manager.Stage
                 .Where(_=>!_input.IsPlayGame.Value)
                 .Subscribe(_ =>
                 {
-                    if (cuttentStageNumber>=0 && cuttentStageNumber<Const.StagesMaxNumber && _stageObjects!=null)
+                    if (_currentStageNumber<Const.StagesMaxNumber)
                     {
                         _blockCount = 0;
                         _stageObjects.ForEach(Destroy);
                         _stageObjects.Clear();
                         _tileObjectData.Clear();
                         
-                        cuttentStageNumber++;
+                        _currentStageNumber++;
                         CreateStage();   
                     }
                 });
@@ -107,14 +107,14 @@ namespace Manager.Stage
                 .Where(_=>!_input.IsPlayGame.Value)
                 .Subscribe(_ =>
                 {
-                    if (cuttentStageNumber>0 && cuttentStageNumber<=Const.StagesMaxNumber && _stageObjects!=null)
+                    if (_currentStageNumber>1)
                     {
                         _blockCount = 0;
                         _stageObjects.ForEach(Destroy);
                         _stageObjects.Clear();
                         _tileObjectData.Clear();
                         
-                        cuttentStageNumber--;
+                        _currentStageNumber--;
                         CreateStage();   
                     }
                 });
@@ -126,7 +126,7 @@ namespace Manager.Stage
         private void LoadTileData()
         {
             //ファイルを区切ってString化する
-            var tileRowData = _stageDatas[cuttentStageNumber].StageFile.text.Split
+            var tileRowData = _stageDatas[_currentStageNumber-1].StageFile.text.Split
             (
                 new[] { '\r', '\n' },
                 System.StringSplitOptions.RemoveEmptyEntries
@@ -168,7 +168,7 @@ namespace Manager.Stage
                     if (type == TileType.NONE) continue;
 
                     //床オブジェクトは無条件で生成
-                    var ground = Instantiate(_stageDatas[cuttentStageNumber].GroundObject,
+                    var ground = Instantiate(_stageDatas[_currentStageNumber-1].GroundObject,
                         GetDisplayPosition(new Vector3(x, 0, z)), Quaternion.identity);
                     ground.name = StageObjectParametersConst.GroundName;
                     ground.transform.parent = _parentObject.transform;
@@ -178,7 +178,7 @@ namespace Manager.Stage
                     switch (type)
                     {
                         case TileType.TARGET:
-                            var target = Instantiate(_stageDatas[cuttentStageNumber].TargetObject,
+                            var target = Instantiate(_stageDatas[_currentStageNumber-1].TargetObject,
                                 GetDisplayPosition(new Vector3(x, 0, z)), Quaternion.identity);
                             target.name = StageObjectParametersConst.TargetName;
                             target.transform.parent = _parentObject.transform;
@@ -186,7 +186,7 @@ namespace Manager.Stage
                             break;
 
                         case TileType.PLAYER:
-                            var player = Instantiate(_stageDatas[cuttentStageNumber].PlayerObject,
+                            var player = Instantiate(_stageDatas[_currentStageNumber-1].PlayerObject,
                                 GetDisplayPosition(new Vector3(x, 0, z)), Quaternion.identity);
                             player.name = StageObjectParametersConst.PlayerName;
                             player.transform.parent = _parentObject.transform;
@@ -195,7 +195,7 @@ namespace Manager.Stage
                             break;
 
                         case TileType.BLOCK:
-                            var block = Instantiate(_stageDatas[cuttentStageNumber].BlockObject,
+                            var block = Instantiate(_stageDatas[_currentStageNumber-1].BlockObject,
                                 GetDisplayPosition(new Vector3(x, 0, z)), Quaternion.identity);
                             _blockCount++;
                             block.name = StageObjectParametersConst.BlockName;
@@ -225,14 +225,14 @@ namespace Manager.Stage
         /// </summary>
         public void NextStage()
         {
-            if (cuttentStageNumber>=0 && cuttentStageNumber< Const.StagesMaxNumber && _stageObjects!=null)
+            if (_currentStageNumber>=0 && _currentStageNumber< Const.StagesMaxNumber && _stageObjects!=null)
             {
                 _blockCount = 0;
                 _stageObjects.ForEach(Destroy);
                 _stageObjects.Clear();
                 _tileObjectData.Clear();
                         
-                cuttentStageNumber++;
+                _currentStageNumber++;
                 CreateStage();   
             }
         }

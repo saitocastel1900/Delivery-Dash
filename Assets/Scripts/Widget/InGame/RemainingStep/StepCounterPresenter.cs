@@ -56,6 +56,13 @@ public class StepCounterPresenter : IDisposable, IInitializable
         
         _inGameCommandManager
             .BlockMovedList
+            .ObserveRemove()
+            .Select(x=>_inGameCommandManager.BlockMovedList.Count)
+            .Subscribe(_view.SetText)
+            .AddTo(_compositeDisposable);
+        
+        _inGameCommandManager
+            .BlockMovedList
             .ObserveReset()
             .Select(x=>_inGameCommandManager.BlockMovedList.Count)
             .Subscribe(_view.SetText)
